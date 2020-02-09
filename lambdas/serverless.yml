@@ -3,11 +3,17 @@ provider:
   name: aws
   runtime: nodejs10.x
   profile: seonghyeon
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action:
+        - "s3:GetObject"
+      Resource:
+        - 'arn:aws:s3:::cloudfront-lambdaedge/*'
 
 functions:
-  cfLambda:
+  originRequest:
     handler: index.handler
     events:
       - cloudFront:
-          eventType: viewer-response
+          eventType: origin-request
           origin: s3://cloudfront-lambdaedge.s3.amazonaws.com

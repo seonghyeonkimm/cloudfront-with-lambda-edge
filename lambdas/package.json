@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "invoke": "node test.js"
+  },
   "devDependencies": {
+    "aws-sdk": "^2.614.0",
     "serverless": "^1.63.0"
   }
 }

@@ -56,10 +56,10 @@
         }
       }
     },
-    "CfLambdaLogGroup": {
+    "OriginRequestLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/cloundFront-lambdaEdge-dev-cfLambda"
+        "LogGroupName": "/aws/lambda/cloundFront-lambdaEdge-dev-originRequest"
       }
     },
     "IamRoleLambdaExecution": {
@@ -123,6 +123,15 @@
                 {
                   "Effect": "Allow",
                   "Action": [
+                    "s3:GetObject"
+                  ],
+                  "Resource": [
+                    "arn:aws:s3:::cloudfront-lambdaedge/*"
+                  ]
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
                     "logs:CreateLogGroup",
                     "logs:CreateLogStream",
                     "logs:PutLogEvents"
@@ -153,16 +162,16 @@
         }
       }
     },
-    "CfLambdaLambdaFunction": {
+    "OriginRequestLambdaFunction": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/cloundFront-lambdaEdge/dev/1581240292974-2020-02-09T09:24:52.974Z/cloundFront-lambdaEdge.zip"
+          "S3Key": "serverless/cloundFront-lambdaEdge/dev/1581258219308-2020-02-09T14:23:39.308Z/cloundFront-lambdaEdge.zip"
         },
-        "FunctionName": "cloundFront-lambdaEdge-dev-cfLambda",
+        "FunctionName": "cloundFront-lambdaEdge-dev-originRequest",
         "Handler": "index.handler",
         "MemorySize": 128,
         "Role": {
@@ -175,26 +184,26 @@
         "Timeout": 5
       },
       "DependsOn": [
-        "CfLambdaLogGroup",
+        "OriginRequestLogGroup",
         "IamRoleLambdaExecution"
       ],
       "DeletionPolicy": "Retain"
     },
-    "CfLambdaLambdaVersionPuEefIbHrGL1ckPYAMaj5Cxsk8JjGyvAQDPFLjHo": {
+    "OriginRequestLambdaVersionra1I6owpxmOeBhGbthIuIYjk2cwL3ZIJo4oxZujhIrk": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
-          "Ref": "CfLambdaLambdaFunction"
+          "Ref": "OriginRequestLambdaFunction"
         },
-        "CodeSha256": "bEvMZ9RzOdDjX5y3OShJIZiTw/bfUK4OSaCW7xPoe7w="
+        "CodeSha256": "miTkYlkBmdJ/nvFrdofwBVsB3yEU/Rzpe9ouIoNaiFs="
       }
     },
-    "CfLambdaLambdaFunctionInvokePermission": {
+    "OriginRequestLambdaFunctionInvokePermission": {
       "Type": "AWS::Lambda::Permission",
       "Properties": {
         "FunctionName": {
-          "Ref": "CfLambdaLambdaVersionPuEefIbHrGL1ckPYAMaj5Cxsk8JjGyvAQDPFLjHo"
+          "Ref": "OriginRequestLambdaVersionra1I6owpxmOeBhGbthIuIYjk2cwL3ZIJo4oxZujhIrk"
         },
         "Action": "lambda:InvokeFunction",
         "Principal": "edgelambda.amazonaws.com",
@@ -234,9 +243,9 @@
             "TargetOriginId": "s3/cloudfront-lambdaedge.s3.amazonaws.com",
             "LambdaFunctionAssociations": [
               {
-                "EventType": "viewer-response",
+                "EventType": "origin-request",
                 "LambdaFunctionARN": {
-                  "Ref": "CfLambdaLambdaVersionPuEefIbHrGL1ckPYAMaj5Cxsk8JjGyvAQDPFLjHo"
+                  "Ref": "OriginRequestLambdaVersionra1I6owpxmOeBhGbthIuIYjk2cwL3ZIJo4oxZujhIrk"
                 }
               }
             ]
@@ -258,10 +267,10 @@
         "Ref": "ServerlessDeploymentBucket"
       }
     },
-    "CfLambdaLambdaFunctionQualifiedArn": {
+    "OriginRequestLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "CfLambdaLambdaVersionPuEefIbHrGL1ckPYAMaj5Cxsk8JjGyvAQDPFLjHo"
+        "Ref": "OriginRequestLambdaVersionra1I6owpxmOeBhGbthIuIYjk2cwL3ZIJo4oxZujhIrk"
       }
     },
     "CloudFrontDistribution": {
